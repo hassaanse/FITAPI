@@ -55,7 +55,7 @@ exports.signUp = async (req, res) => {
     });
 
     // Send verification email
-    const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
+    const verificationUrl = `http://localhost:80/api/auth/verify-email/${verificationToken}`;
     await sendEmail(
       email,
       'Verify your email',
@@ -92,7 +92,7 @@ exports.signUp = async (req, res) => {
 //     });
 
 //     // Send verification email
-//     const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
+//     const verificationUrl = `http://localhost:80/api/auth/verify-email/${verificationToken}`;
 //     await sendEmail(
 //       email,
 //       'Verify your email',
@@ -119,7 +119,7 @@ exports.verifyEmail = async (req, res) => {
     user.verified = true; // Mark the user as verified
     await user.save();
 
-    res.redirect('http://localhost:5000/login'); // Redirect to the login page
+    res.redirect('http://localhost:80/login'); // Redirect to the login page
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
