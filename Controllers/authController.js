@@ -55,7 +55,7 @@ exports.signUp = async (req, res) => {
     });
 
     // Send verification email
-    const verificationUrl = `http://localhost:80/api/auth/verify-email/${verificationToken}`;
+    const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
     await sendEmail(
       email,
       'Verify your email',
@@ -92,7 +92,7 @@ exports.signUp = async (req, res) => {
 //     });
 
 //     // Send verification email
-//     const verificationUrl = `http://localhost:80/api/auth/verify-email/${verificationToken}`;
+//     const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
 //     await sendEmail(
 //       email,
 //       'Verify your email',
@@ -119,7 +119,7 @@ exports.verifyEmail = async (req, res) => {
     user.verified = true; // Mark the user as verified
     await user.save();
 
-    res.redirect('http://localhost:80/login'); // Redirect to the login page
+    res.redirect('http://localhost:3000/'); // Redirect to the login page
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -139,7 +139,12 @@ exports.login = async (req, res) => {
     if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: jwtExpire });
-    res.json({ token });
+    res.json({
+      token,
+      id: user.id,
+      username: user.name, // Assuming `username` is a field in the `User` model
+      role: user.role,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
